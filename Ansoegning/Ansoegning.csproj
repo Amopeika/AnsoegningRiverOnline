@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Downloads\Ansoegning-master\Ansoegning-master\DataLayer\DataLayer.csproj" />
+    <ProjectReference Include="..\..\..\..\Downloads\Ansoegning-master\Ansoegning-master\ServiceLayer\ServiceLayer.csproj" />
+  </ItemGroup>
+
 </Project>
