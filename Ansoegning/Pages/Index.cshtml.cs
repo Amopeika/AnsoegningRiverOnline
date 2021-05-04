@@ -15,8 +15,9 @@ namespace Ansoegning.Pages
         private readonly IUserService _UserService;
 
         public List<User> users { get; set; }
+
+        [BindProperty]
         public User newUser { get; set; }
-        public User editUser { get; set; }
 
         public IndexModel(IUserService IUserService)
         {
@@ -27,17 +28,11 @@ namespace Ansoegning.Pages
         {
             users = await _UserService.GetAllUsersAsync();
             newUser = new User();
-            editUser = new User();
         }
 
-        public async Task getUpdateUser(int ID)
+        public async Task OnPostNewUserAsync()
         {
-            editUser = await _UserService.GetUserByIDAsync(ID);
-        }
-
-        public async Task OnPostUpdateUser()
-        {
-            await _UserService.UpdateUserAsync(editUser);
+            await _UserService.CreateUserAsync(newUser);
             await OnGetAsync();
         }
     }

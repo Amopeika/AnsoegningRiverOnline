@@ -1,0 +1,84 @@
+﻿@page "{ID:int}"
+@model Ansoegning.Pages.SpecificUserModel
+@{
+}
+
+<div class="main-form bg-light">
+    <div class="row">
+        <div class="col-4">
+            <h1>Bruger</h1>
+        </div>
+    </div>
+    <table class="table table-hover table-striped" id="UserTable">
+        <tr class="thead-dark">
+            <th scope="col">ID</th>
+            <th scope="col">Navn</th>
+            <th scope="col">Alder</th>
+            <th scope="col">Køn</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        <tbody id="UserTableBody">
+            <tr>
+                <td>@Model.user.ID</td>
+                <td>@Model.user.name</td>
+                <td>@Model.user.age</td>
+                <td>@Model.user.gender</td>
+                <td>
+                    <a href="" id="btnSpecificUserEdit" class="btn btn-sm btn-info float-left" data-toggle="modal" data-target="#updateUserModal">
+                        <span>Rediger</span>
+                    </a>
+                </td>
+                <td>
+                    <form asp-page-handler="DeleteUser" method="post">
+                        <button id="btnSpecificUserDelete" type="submit" class="btn btn-danger text-white btn-sm float-left" onclick="return confirm('Er du sikker på, at du vil slette denne bruger og hele brugerens historik?');">Slet bruger</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateUserModalLabel">Rediger Bruger</h5>
+            </div>
+            <form asp-page-handler="updateUser" method="post">
+                <div class="modal-body row">
+                    <div class="col-md-6">
+                        <label for="id">ID</label>
+                        <input readonly asp-for="@Model.user.ID" id="id" value="@Model.user.ID" class="form-control" type="number" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Navn</label>
+                        <input asp-for="@Model.user.name" id="UserFirstAndLastname" value="@Model.user.name" class="form-control" type="text" />
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class=" row">
+                        <div class="col-md-6">
+                            <label for="age">Alder</label>
+                            <input asp-for="@Model.user.age" id="Age" value="@Model.user.age" class="form-control" type="number" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender">Køn</label>
+                            <select class="form-control col-md-12" asp-for="@Model.user.gender" id="gender" name="user.gender">
+                                <option hidden value="@Model.user.gender">@Model.user.gender</option>
+                                @foreach (var Gender in Enum.GetValues(typeof(DataLayer.Models.Gender)))
+                                {
+                                    <option value="@Gender">@Gender</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuller</button>
+                    <button type="submit" class="btn btn-success col-2 offset-5 text-white">Opdater</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,9 @@ namespace ServiceLayer
         public async Task UpdateUserAsync(User edit)
         {
             User user = await _AnsoegningContext.Users.FirstOrDefaultAsync(T => T.ID == edit.ID);
-            user = edit;
+            user.name = edit.name;
+            user.age = edit.age;
+            user.gender = edit.gender;
             _AnsoegningContext.Update(user);
             await _AnsoegningContext.SaveChangesAsync();
         }

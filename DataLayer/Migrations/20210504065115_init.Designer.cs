@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(AnsoegningContext))]
-    [Migration("20210503065055_init")]
+    [Migration("20210504065115_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,13 @@ namespace DataLayer.Migrations
                             age = 27,
                             gender = 0,
                             name = "Test User"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            age = 59,
+                            gender = 1,
+                            name = "Test User 2"
                         });
                 });
 #pragma warning restore 612, 618
