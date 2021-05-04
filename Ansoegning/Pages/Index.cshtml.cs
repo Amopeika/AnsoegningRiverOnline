@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataLayer.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +12,28 @@ namespace Ansoegning.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IUserService _UserService;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public List<User> users { get; set; }
+
+        [BindProperty]
+        public User newUser { get; set; }
+
+        public IndexModel(IUserService IUserService)
         {
-            _logger = logger;
+            _UserService = IUserService;
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
+            users = await _UserService.GetAllUsersAsync();
+            newUser = new User();
+        }
 
+        public async Task OnPostNewUserAsync()
+        {
+            await _UserService.CreateUserAsync(newUser);
+            await OnGetAsync();
         }
     }
 }

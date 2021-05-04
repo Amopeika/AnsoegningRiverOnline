@@ -1,10 +1,74 @@
-﻿@page
+﻿@page 
+
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
+<a class="btn btn-success mb-1" data-toggle="modal" data-target="#newUserModal">Ny Bruger</a>
+<table class="table table-striped table-dark">
+    <tr>
+        <td>ID</td>
+        <td>Navn</td>
+        <td>Alder</td>
+        <td>Køn</td>
+        <td></td>
+    </tr>
+    <tbody>
+        @foreach (var user in Model.users)
+        {
+            <tr>
+                <td>@user.ID</td>
+                <td>@user.name</td>
+                <td>@user.age</td>
+                <td>@user.gender</td>
+                <td>
+                    <a id="btnSpecificUser" class="btn btn-info btn-sm float-left" asp-page="/SpecificUser" asp-route-ID="@user.ID">Se Bruger</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="newUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserModalLabel">Opret ny Bruger</h5>
+            </div>
+            <form asp-page-handler="newUser" method="post">
+                <div class="modal-body row">
+                    <div class="col-md-6">
+                        <label for="id">ID</label>
+                        <input readonly id="id" value="@Model.newUser.ID" class="form-control" type="number" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Navn</label>
+                        <input asp-for="@Model.newUser.name" id="UserFirstAndLastname" value="@Model.newUser.name" class="form-control" type="text" />
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class=" row">
+                        <div class="col-md-6">
+                            <label for="age">Alder</label>
+                            <input asp-for="@Model.newUser.age" id="Age" value="@Model.newUser.age" class="form-control" type="number" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender">Køn</label>
+                            <select class="form-control col-md-12" asp-for="@Model.newUser.gender" id="gender" name="newUser.gender">
+                                @foreach (var Gender in Enum.GetValues(typeof(DataLayer.Models.Gender)))
+                                {
+                                    <option value="@Gender">@Gender</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuller</button>
+                    <button type="submit" class="btn btn-success col-2 offset-5 text-white">Opret</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
